@@ -27,8 +27,6 @@ void AddDataToTable(sqlite3 *db) {
 	if (res != SQLITE_OK) cout << "Insert error: " << err;
 }
 
-static const string filename_example_db3 = getExamplePath() + "example.db3";
-
 int main() {
 	int choose;
     sqlite3 *db;
