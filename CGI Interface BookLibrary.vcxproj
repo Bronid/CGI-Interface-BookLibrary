@@ -19,12 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\Database.cpp" />
     <ClCompile Include="cpp\main.cpp" />
     <ClCompile Include="cpp\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Database.h" />
     <ClInclude Include="header\Server.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
