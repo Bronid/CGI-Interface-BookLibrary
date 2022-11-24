@@ -19,11 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\main.cpp" />
-    <ClCompile Include="cpp\Server.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="header\Server.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
