@@ -1,4 +1,4 @@
-DIR = C:\xampp
+DIR = D:\Codes\CGIBookLibrary\xampp
 xampp = 8.1.12
 
 server = 1.8.0
