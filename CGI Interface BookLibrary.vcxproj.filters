@@ -18,13 +18,13 @@
     <ClCompile Include="MainPage.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="AddToDB.cpp">
+    <ClCompile Include="DropTable.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DeleteFromDB.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DropTable.cpp">
+    <ClCompile Include="AddToDB.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

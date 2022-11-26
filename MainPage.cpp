@@ -40,10 +40,12 @@ void printTable(string TableName, string DataName[], int tablelength) {
 	cout << "</table>\n";
 	cout << "<FORM action = \"/cgi-bin/AddToDB.cgi\" method = \"post\">\n";
 	cout << "<P>\n";
-	for (int i = 0; i < tablelength; i++) cout << DataName[0] + ":<INPUT type = \"text\" name = \"bookname\"><BR>\n";
+	for (int i = 0; i < tablelength; i++) cout << DataName[i] + ": <INPUT type = \"text\" name = \"" << DataName[i] << "\"><BR>\n";
 	cout << "<INPUT type = \"submit\" value = \"Add\"> <INPUT type = \"reset\" value = \"Reset\">\n";
-	cout << "<button type=\"submit\" formaction=\"/cgi-bin/DropTable.cgi\">Drop Table</button>\n";
 	cout << "</P>\n";
+	cout << "</FORM>\n";
+	cout << "<FORM action = \"/cgi-bin/DropTable.cgi\" method = \"post\">\n";
+	cout << "<INPUT type = \"submit\" value = \"Drop Table\" name = \"" << TableName << "\">\n";
 	cout << "</FORM>\n";
 }
 
