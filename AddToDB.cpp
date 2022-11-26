@@ -31,6 +31,8 @@ void DropTable(sqlite3* db, string tablename) {
 }
 
 int main() {
+	cout << "Content-type:text/html\r\n\r\n";
+	cout << "New information added!";
 	sqlite3* db;
 	sqlite3_open("Test.db", &db);
 	int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);

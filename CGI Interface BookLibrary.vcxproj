@@ -75,7 +75,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>.\xampp\cgi-bin</OutDir>
+    <OutDir>C:\xampp\cgi-bin</OutDir>
     <TargetName>index</TargetName>
     <TargetExt>.cgi</TargetExt>
   </PropertyGroup>
