@@ -9,24 +9,35 @@
 using namespace std;
 using namespace cgicc;
 
+char* err;
+
 void printTable(string TableName, string DataName[], int tablelength) {
 	sqlite3* db;
+	sqlite3_stmt* stmt{};
 	sqlite3_open("Test.db", &db);
+	if (TableName == "Books") {
+		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);
+		if (res != SQLITE_OK) cout << "Error: " << err;
+	}
+	if (TableName == "Authors") {
+		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(Name varchar(100), Surname varchar(100), Birthday varchar(100));", NULL, NULL, &err);
+		if (res != SQLITE_OK) cout << "Error: " << err;
+	}
 	cout << "<h2>" + TableName + "</h2>\n";
 	cout << "<table>\n";
 	cout << "<tr>\n";
 	for (int i = 0; i < tablelength; i++) cout << "<th>" + DataName[i] + "</th>\n";
 	cout << "</tr>\n";
 
+	if (TableName == "Books") sqlite3_prepare_v2(db, "SELECT BookName, Author, Year, Pages FROM Books", -1, &stmt, 0);
+	if (TableName == "Authors") sqlite3_prepare_v2(db, "SELECT Name, Surname, Birthday FROM Authors", -1, &stmt, 0);
 	//тут данные на каждую таблицу
-	for (int j = 0; j < 1; j++) {
+	while(sqlite3_step(stmt) != SQLITE_DONE) {
 		cout << "<tr>\n";
-		for (int i = 0; i < tablelength; i++) cout << "<td> test </td>\n";
+		for (int i = 0; i < tablelength; i++) cout << "<td>" << sqlite3_column_text(stmt, i) << "</td>\n";
 		cout << "</tr>\n";
 	}
 	cout << "</table>\n";
-	cout << "<button class=\"button button1\">Add</button>";
-	cout << "<button class=\"button button2\">Delete</button>\n";
 }
 
 void printCSS() {
@@ -34,19 +45,6 @@ void printCSS() {
 	cout << "table, th, td {\n";
 	cout << "border: 1px solid black;\n";
 	cout << "}\n";
-	cout << ".button {\n";
-	cout << "border: none;\n";
-	cout << "color: white;\n";
-	cout << "padding: 15px 32px;\n";
-	cout << "text-align: center;\n";
-	cout << "text-decoration: none;\n";
-	cout << "display: inline-block;\n";
-	cout << "font-size: 16px;\n";
-	cout << "margin: 4px 2px;\n";
-	cout << "cursor: pointer;\n";
-	cout << "}\n";
-	cout << ".button1 {background-color: #32CD32;}\n";
-	cout << ".button2 {background-color: #8B0000;}\n";
 	cout << "</style>\n";
 }
 
