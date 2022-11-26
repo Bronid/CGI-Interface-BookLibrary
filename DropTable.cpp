@@ -17,9 +17,9 @@ int main() {
 	cout << "Content-type:text/html\r\n\r\n";
 	sqlite3* db;
 	sqlite3_open("DB.db", &db);
-	int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);
+	int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookId BIGSERIAL NOT NULL PRIMARY Key, BookName varchar(50), Author varchar(50), Year int, Pages int);", NULL, NULL, &err);
 	if (res != SQLITE_OK) cout << "Error: " << err << endl;
-	res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(Name varchar(100), Surname varchar(100), Birthday varchar(100));", NULL, NULL, &err);
+	res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(AuthorId BIGSERIAL NOT NULL PRIMARY Key, Name varchar(50), Surname varchar(50), Birthday Date);", NULL, NULL, &err);
 	if (res != SQLITE_OK) cout << "Error: " << err << endl;
 	try {
 		Cgicc cgi;

@@ -9,13 +9,13 @@ using namespace cgicc;
 char* err;
 
 void AddAuthorDataToTable(sqlite3* db, string name, string surname, string birthday) {
-	string query = "INSERT INTO Authors VALUES('" + name + '\'' + "," + '\'' + surname + '\'' + "," + '\'' + birthday + '\'' + ");";
+	string query = "INSERT INTO Authors(Name, Surname, Birthday) VALUES('" + name + '\'' + "," + '\'' + surname + '\'' + "," + '\'' + birthday + '\'' + ");";
 	int res = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (res != SQLITE_OK) cout << "Insert error: " << err;
 }
 
 void AddBookDataToTable(sqlite3* db, string book, string author, string year, string pages) {
-	string query = "INSERT INTO Books VALUES('" + book + '\'' + "," + '\'' + author + '\'' + "," + year + "," + pages + ");";
+	string query = "INSERT INTO Books(BookName, Author, Year, Pages) VALUES('" + book + '\'' + "," + '\'' + author + '\'' + "," + year + "," + pages + ");";
 	int res = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (res != SQLITE_OK) cout << "Insert error: " << err;
 }
@@ -24,10 +24,6 @@ int main() {
 	cout << "Content-type:text/html\r\n\r\n";
 	sqlite3* db;
 	sqlite3_open("DB.db", &db);
-	int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);
-	if (res != SQLITE_OK) cout << "Error: " << err << endl;
-	res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(Name varchar(100), Surname varchar(100), Birthday varchar(100));", NULL, NULL, &err);
-	if (res != SQLITE_OK) cout << "Error: " << err << endl;
 	try {
 		Cgicc cgi;
 		const_form_iterator iter;

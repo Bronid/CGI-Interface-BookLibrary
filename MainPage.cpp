@@ -16,11 +16,11 @@ void printTable(string TableName, string DataName[], int tablelength) {
 	sqlite3_stmt* stmt{};
 	sqlite3_open("DB.db", &db);
 	if (TableName == "Books") {
-		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);
+		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookId integer PRIMARY KEY autoincrement, BookName varchar(50), Author varchar(50), Year int, Pages int);", NULL, NULL, &err);
 		if (res != SQLITE_OK) cout << "Error: " << err;
 	}
 	if (TableName == "Authors") {
-		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(Name varchar(100), Surname varchar(100), Birthday varchar(100));", NULL, NULL, &err);
+		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(AuthorId integer PRIMARY KEY autoincrement, Name varchar(50), Surname varchar(50), Birthday Date);", NULL, NULL, &err);
 		if (res != SQLITE_OK) cout << "Error: " << err;
 	}
 	cout << "<h2>" + TableName + "</h2>\n";
@@ -29,12 +29,24 @@ void printTable(string TableName, string DataName[], int tablelength) {
 	for (int i = 0; i < tablelength; i++) cout << "<th>" + DataName[i] + "</th>\n";
 	cout << "</tr>\n";
 
-	if (TableName == "Books") sqlite3_prepare_v2(db, "SELECT BookName, Author, Year, Pages FROM Books", -1, &stmt, 0);
-	if (TableName == "Authors") sqlite3_prepare_v2(db, "SELECT Name, Surname, Birthday FROM Authors", -1, &stmt, 0);
+	if (TableName == "Books") sqlite3_prepare_v2(db, "SELECT * FROM Books", -1, &stmt, 0);
+	if (TableName == "Authors") sqlite3_prepare_v2(db, "SELECT * FROM Authors", -1, &stmt, 0);
 
 	while(sqlite3_step(stmt) != SQLITE_DONE) {
 		cout << "<tr>\n";
-		for (int i = 0; i < tablelength; i++) cout << "<td>" << sqlite3_column_text(stmt, i) << "</td>\n";
+		for (int i = 1; i < tablelength + 1; i++) cout << "<td>" << sqlite3_column_text(stmt, i) << "</td>\n";
+		cout << "<td>";
+		cout << "<FORM action = \"/cgi-bin/EditDB.cgi\" method = \"post\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Edit\" name = \"" << TableName << "_" << sqlite3_column_text(stmt, 0) << "\">\n";
+		cout << "</FORM>\n";
+		cout << "</td>\n";
+
+		cout << "<td>";
+		cout << "<FORM action = \"/cgi-bin/DeleteFromDB.cgi\" method = \"post\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Delete\" name = \"" << TableName << "_" << sqlite3_column_int(stmt, 0) << "\">\n";
+		cout << "</FORM>\n";
+		cout << "</td>\n";
+
 		cout << "</tr>\n";
 	}
 	cout << "</table>\n";
