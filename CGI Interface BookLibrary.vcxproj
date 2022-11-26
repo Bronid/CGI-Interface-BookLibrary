@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddToDB.cpp" />
+    <ClCompile Include="DeleteFromDB.cpp" />
+    <ClCompile Include="DropTable.cpp" />
     <ClCompile Include="MainPage.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

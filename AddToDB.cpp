@@ -32,19 +32,18 @@ void DropTable(sqlite3* db, string tablename) {
 
 int main() {
 	cout << "Content-type:text/html\r\n\r\n";
-	cout << "New information added!";
 	sqlite3* db;
-	sqlite3_open("Test.db", &db);
+	sqlite3_open("DB.db", &db);
 	int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookName varchar(100), Author varchar(100), Year int, Pages int);", NULL, NULL, &err);
-	if (res != SQLITE_OK) cout << "Error: " << err;
+	if (res != SQLITE_OK) cout << "Error: " << err << endl;
 	res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Authors(Name varchar(100), Surname varchar(100), Birthday varchar(100));", NULL, NULL, &err);
-	if (res != SQLITE_OK) cout << "Error: " << err;
+	if (res != SQLITE_OK) cout << "Error: " << err << endl;
 	try {
 		Cgicc cgi;
 		const_form_iterator iter;
 		list<string> TempList;
 		for (iter = cgi.getElements().begin(); iter != cgi.getElements().end(); ++iter) TempList.push_back(iter->getValue());
-		if (TempList.size() == 3) {
+		if (cgi.getElements().begin()->getName() == "bookname") {
 			string name = TempList.front();
 			TempList.pop_front();
 			string surname = TempList.front();
@@ -52,7 +51,7 @@ int main() {
 			string birthday = TempList.front();
 			AddAuthorDataToTable(db, name, surname, birthday);
 		}
-		if (TempList.size() == 4) {
+		if (cgi.getElements().begin()->getName() == "name") {
 			string book = TempList.front();
 			TempList.pop_front();
 			string author = TempList.front();
@@ -62,6 +61,7 @@ int main() {
 			string pages = TempList.front();
 			AddBookDataToTable(db, book, author, year, pages);
 		}
+		cout << "<h1>New data added!</h1>";
 
 	}
 	catch (exception& e) {
