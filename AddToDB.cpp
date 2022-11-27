@@ -37,7 +37,7 @@ int main() {
 			string birthday = TempList.front();
 			AddAuthorDataToTable(db, name, surname, birthday);
 		}
-		if (cgi.getElements().begin()->getName() == "Book Name") {
+		if (cgi.getElements().begin()->getName() == "BookName") {
 			string book = TempList.front();
 			TempList.pop_front();
 			string author = TempList.front();

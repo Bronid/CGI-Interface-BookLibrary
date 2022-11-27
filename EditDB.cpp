@@ -26,10 +26,10 @@ int main() {
 	sqlite3_open("DB.db", &db);
 	try {
 		Cgicc cgi;
-		string datatodelete = cgi.getElements().begin()->getName();
+		string datatoedit = cgi.getElements().begin()->getName();
 		const char delim = '_';
 		list<string> outList;
-		tokenize(datatodelete, delim, outList);
+		tokenize(datatoedit, delim, outList);
 		string TableName = outList.front();
 		string query = "";
 		int tablelength = 0;
@@ -46,7 +46,7 @@ int main() {
 		cout << "<P>\n";
 		sqlite3_step(stmt);
 		for (int i = 1; i < tablelength; i++) cout << sqlite3_column_name(stmt, i) << ": <INPUT type = \"text\" name = \"" << sqlite3_column_name(stmt, i) << "\" value = \"" << sqlite3_column_text(stmt, i) << "\"><BR>\n";
-		cout << "<INPUT type = \"submit\" value = \"Confirm\"> <INPUT type = \"reset\" value = \"Reset\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Confirm\" name = \"" << outList.back() << "\"" << "> <INPUT type = \"reset\" value = \"Reset\">\n";
 		cout << "</P>\n";
 		cout << "</FORM>\n";
 
