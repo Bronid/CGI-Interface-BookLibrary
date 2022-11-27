@@ -15,7 +15,7 @@ void UpdateAuthorDataTable(sqlite3* db, string name, string surname, string birt
 }
 
 void UpdateBookDataTable(sqlite3* db, string book, string author, string year, string pages, string id) {
-	string query = "UPDATE Books SET BookName = \"" + book + "\", Author = \"" + author + "\", Year = \"" + year + "\", Pages = \"" + pages + "\"" + "WHERE AuthorId = " + id + ";";
+	string query = "UPDATE Books SET BookName = \"" + book + "\", Author = \"" + author + "\", Year = \"" + year + "\", Pages = \"" + pages + "\"" + "WHERE BookId = " + id + ";";
 	int res = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (res != SQLITE_OK) cout << "Insert error: " << err;
 }
