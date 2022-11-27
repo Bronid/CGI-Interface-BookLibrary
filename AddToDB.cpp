@@ -48,6 +48,9 @@ int main() {
 			AddBookDataToTable(db, book, author, year, pages);
 		}
 		cout << "<h1>New data added!</h1>";
+		cout << "<FORM action = \"/cgi-bin/index.cgi\" method = \"post\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Back\">\n";
+		cout << "</FORM>\n";
 
 	}
 	catch (exception& e) {

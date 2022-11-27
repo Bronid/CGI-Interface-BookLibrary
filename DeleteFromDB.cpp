@@ -40,6 +40,10 @@ int main() {
 		tokenize(datatodelete, delim, outList);
 		DeleteDataFromTable(db, outList);
 		cout << "<h1>Data deleted!</h1>";
+
+		cout << "<FORM action = \"/cgi-bin/index.cgi\" method = \"post\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Back\">\n";
+		cout << "</FORM>\n";
 	}
 	catch (exception& e) {
 		cout << "Exception:";

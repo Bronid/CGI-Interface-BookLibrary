@@ -25,6 +25,9 @@ int main() {
 		Cgicc cgi;
 		const_form_iterator iter;
 		DropTable(db, cgi.getElements().begin()->getName());
+		cout << "<FORM action = \"/cgi-bin/index.cgi\" method = \"post\">\n";
+		cout << "<INPUT type = \"submit\" value = \"Back\">\n";
+		cout << "</FORM>\n";
 	}
 	catch (exception& e) {
 		cout << e.what() << endl;
