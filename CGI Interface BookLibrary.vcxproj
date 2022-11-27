@@ -19,11 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddToDB.cpp" />
-    <ClCompile Include="DeleteFromDB.cpp" />
-    <ClCompile Include="DropTable.cpp" />
     <ClCompile Include="EditDB.cpp" />
-    <ClCompile Include="MainPage.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -79,7 +75,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>C:\xampp\cgi-bin</OutDir>
-    <TargetName>DeleteFromDB</TargetName>
+    <TargetName>EditDB</TargetName>
     <TargetExt>.cgi</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
