@@ -11,9 +11,10 @@ using namespace cgicc;
 
 char* err;
 
-void printTable(string TableName, string DataName[], int tablelength) {
+void printTable(string TableName, string DataName[], int tablelength, bool isSearch) {
 	sqlite3* db;
 	sqlite3_stmt* stmt{};
+	Cgicc cgi;
 	sqlite3_open("DB.db", &db);
 	if (TableName == "Books") {
 		int res = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Books(BookId integer PRIMARY KEY autoincrement, BookName varchar(50), Author varchar(50), Year int, Pages int);", NULL, NULL, &err);
@@ -29,8 +30,14 @@ void printTable(string TableName, string DataName[], int tablelength) {
 	for (int i = 0; i < tablelength; i++) cout << "<th>" + DataName[i] + "</th>\n";
 	cout << "</tr>\n";
 
-	if (TableName == "Books") sqlite3_prepare_v2(db, "SELECT * FROM Books", -1, &stmt, 0);
-	if (TableName == "Authors") sqlite3_prepare_v2(db, "SELECT * FROM Authors", -1, &stmt, 0);
+	if (TableName == "Books" && isSearch && !cgi.getElement("SearchByBookName")->isEmpty() && cgi.getElement("SearchByAuthor")->isEmpty()) sqlite3_prepare_v2(db, ("SELECT * FROM Books WHERE BookName=\"" + cgi.getElement("SearchByBookName")->getValue() + "\";").c_str(), -1, &stmt, 0);
+	else if (TableName == "Books" && isSearch && !cgi.getElement("SearchByBookName")->isEmpty() && !cgi.getElement("SearchByAuthor")->isEmpty()) sqlite3_prepare_v2(db, ("SELECT * FROM Books WHERE BookName=\"" + cgi.getElement("SearchByBookName")->getValue() + "\", Author=\"" + cgi.getElement("SearchByAuthor")->getValue() + "\";").c_str(), -1, &stmt, 0);
+	else if (TableName == "Books" && isSearch && cgi.getElement("SearchByBookName")->isEmpty() && !cgi.getElement("SearchByAuthor")->isEmpty()) sqlite3_prepare_v2(db, ("SELECT * FROM Books WHERE Author=\"" + cgi.getElement("SearchByAuthor")->getValue() + "\";").c_str(), -1, &stmt, 0);
+	else if (TableName == "Books") sqlite3_prepare_v2(db, "SELECT * FROM Books", -1, &stmt, 0);
+
+	if (TableName == "Authors" && isSearch && !cgi.getElement("SearchByAuthor")->isEmpty()) sqlite3_prepare_v2(db, ("SELECT * FROM Authors WHERE Name=\"" + cgi.getElement("SearchByAuthor")->getValue() + "\";").c_str(), -1, &stmt, 0);
+	else if (TableName == "Authors") sqlite3_prepare_v2(db, "SELECT * FROM Authors", -1, &stmt, 0);
+
 
 	while(sqlite3_step(stmt) != SQLITE_DONE) {
 		cout << "<tr>\n";
@@ -70,6 +77,8 @@ void printCSS() {
 }
 
 int main() {
+	Cgicc cgi;
+	bool isSearch = cgi.getElements().size() != 0;
 	string TestData1[] = { "BookName", "Author", "Year", "Pages" };
 	string TestData2[] = { "Name", "Surname", "Birthday" };
 	cout << "Content-type:text/html\r\n\r\n";
@@ -80,9 +89,19 @@ int main() {
 	cout << "</head>\n";
 	cout << "<body>\n";
 	cout << "<h1>Book Library Page</h1>\n";
-	printTable("Books", TestData1, sizeof(TestData1) / sizeof(*TestData1));
-	printTable("Authors", TestData2, sizeof(TestData2) / sizeof(*TestData2));
+
+	printTable("Books", TestData1, sizeof(TestData1) / sizeof(*TestData1), isSearch);
+	printTable("Authors", TestData2, sizeof(TestData2) / sizeof(*TestData2), isSearch);
 	cout << "<br/>\n";
+
+	cout << "<FORM action = \"/cgi-bin/index.cgi\" method = \"get\">\n";
+	cout << "<P>\n";
+	cout << "Search by Book name: <INPUT type = \"text\" name = \"SearchByBookName\"><BR>\n";
+	cout << "Search by Author: <INPUT type = \"text\" name = \"SearchByAuthor\"><BR>\n";
+	cout << "<INPUT type = \"submit\" value = \"Search\"> <INPUT type = \"reset\" value = \"Reset\">\n";
+	cout << "</P>\n";
+	cout << "</FORM>\n";
+
 	cout << "</body>\n";
 	cout << "</html>\n";
 }
